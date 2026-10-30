@@ -1,5 +1,4 @@
 package com.donaciones.control_donaciones.entity;
-
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
