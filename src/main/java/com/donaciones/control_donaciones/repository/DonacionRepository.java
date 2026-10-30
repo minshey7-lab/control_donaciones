@@ -1,6 +1,7 @@
-package com.donaciones.controldonaciones.repository;
+package com.donaciones.control_donaciones.repository;
 
-import com.donaciones.controldonaciones.entity.Donacion;
+
+import com.donaciones.control_donaciones.entity.Donacion;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
