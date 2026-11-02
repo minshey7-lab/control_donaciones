@@ -38,4 +38,9 @@ public class Donante {
     public void setTipo(String tipo) { this.tipo = tipo; }
     public String getDireccion() { return direccion; }
     public void setDireccion(String direccion) { this.direccion = direccion; }
+
+
+    public List<Donacion> getDonaciones() {
+        return donaciones;
+    }
 }

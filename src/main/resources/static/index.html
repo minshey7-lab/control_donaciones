@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NUTRIVA | Gestión de Donaciones Alimentarias</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<!-- ENCABEZADO -->
+<header class="encabezado">
+    <div class="logo"> NUTRIVA</div>
+
+    <div class="subtitulo">
+        Sistema de Gestión de Donaciones Alimentarias
+    </div>
+</header>
+
+<div class="contenedor">
+
+    <!-- MENÚ LATERAL -->
+    <nav class="menu">
+        <h3>MENÚ PRINCIPAL</h3>
+
+        <button class="activo" id="botonInicio" type="button">🏠 Inicio</button>
+
+        <button id="botonProductos" type="button">📦 Productos</button>
+        <button id="botonInventario" type="button">🗃️ Inventario</button>
+        <button id="botonMovimientos" type="button">🔄 Movimientos</button>
+
+        <button id="botonDonantes" type="button">👥 Donantes</button>
+        <button id="botonDonaciones" type="button">❤️ Donaciones</button>
+
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="principal">
+
+        <h1>¡Bienvenido a NUTRIVA!</h1>
+
+        <p class="descripcion">
+            Administra las donaciones de alimentos,
+            consulta el inventario y lleva el control
+            de los productos desde un solo lugar.
+        </p>
+
+        <!-- TARJETAS DE ESTADÍSTICAS -->
+        <section class="tarjetas">
+
+            <div class="tarjeta">
+                <h3>📦 Productos registrados</h3>
+                <div class="numero" id="totalProductos">--</div>
+            </div>
+
+            <div class="tarjeta">
+                <h3>🗃️ Unidades disponibles</h3>
+                <div class="numero" id="unidadesDisponibles">--</div>
+            </div>
+
+            <div class="tarjeta">
+                <h3>📩 Unidades recibidas</h3>
+                <div class="numero" id="unidadesRecibidas">--</div>
+            </div>
+
+            <div class="tarjeta">
+                <h3>❤️ Unidades entregadas</h3>
+                <div class="numero" id="unidadesEntregadas">--</div>
+            </div>
+
+        </section>
+
+        <!-- RESUMEN DEL INVENTARIO -->
+        <section class="panel" id="seccionInventario">
+
+
+            <h2>📋 Resumen del inventario</h2>
+
+            <p class="descripcion">
+                Aquí puedes visualizar los alimentos
+                registrados y sus existencias actuales.
+            </p>
+
+            <table class="tabla">
+
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Categoría</th>
+                    <th>Existencias</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+
+                <tbody id="tablaProductos">
+                <tr>
+                    <td colspan="4">
+                        Cargando productos...
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+
+        </section>
+
+
+
+
+        <!-- SECCIÓN PARA REGISTRAR PRODUCTOS -->
+        <section class="panel" id="seccionProductos"
+                 style="display: none;">
+
+            <h2>📦 Registrar nuevo producto</h2>
+
+            <p class="descripcion">
+                Ingresa los datos del alimento que deseas
+                agregar al inventario.
+            </p>
+
+            <form class="formulario" id="formularioProducto">
+
+                <label for="nombreProducto">
+                    Nombre del producto
+                </label>
+                <input type="text"
+                       id="nombreProducto"
+                       placeholder="Ejemplo: Frijol"
+                       required>
+
+                <label for="categoriaProducto">
+                    Categoría
+                </label>
+                <input type="text"
+                       id="categoriaProducto"
+                       placeholder="Ejemplo: Granos"
+                       required>
+
+                <button type="submit" class="boton">
+                    Guardar producto
+                </button>
+
+            </form>
+
+            <p id="mensajeProducto" role="status"></p>
+
+        </section>
+
+
+
+
+
+        <!-- SECCIÓN DE MOVIMIENTOS -->
+        <section class="panel" id="seccionMovimientos"
+                 style="display: none;">
+
+            <h2>🔄 Registrar movimiento</h2>
+
+            <p class="descripcion">
+                Registra las entradas y salidas de alimentos
+                para mantener actualizado el inventario.
+            </p>
+
+            <form class="formulario" id="formularioMovimiento">
+
+                <label for="productoMovimiento">
+                    Seleccionar producto
+                </label>
+
+                <select id="productoMovimiento" required>
+                    <option value="">
+                        Selecciona un producto
+                    </option>
+                </select>
+
+                <label for="tipoMovimiento">
+                    Tipo de movimiento
+                </label>
+
+                <select id="tipoMovimiento" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="ENTRADA">Entrada de alimentos</option>
+                    <option value="SALIDA">Salida de alimentos</option>
+                </select>
+
+                <label for="cantidadMovimiento">
+                    Cantidad
+                </label>
+
+                <input type="number"
+                       id="cantidadMovimiento"
+                       min="1"
+                       step="1"
+                       placeholder="Ejemplo: 10"
+                       required>
+
+                <button type="submit" class="boton">
+                    Guardar movimiento
+                </button>
+
+            </form>
+
+            <p id="mensajeMovimiento" role="status"></p>
+
+        </section>
+
+
+
+
+
+        <!-- EDITAR PRODUCTOS -->
+        <section class="panel" id="seccionEditarProducto"
+                 style="display: none;">
+
+            <h2>✏️ Editar producto</h2>
+
+            <p class="descripcion">
+                Modifica el nombre o la categoría de un alimento.
+                Las existencias no cambiarán.
+            </p>
+
+            <form class="formulario" id="formularioEditarProducto">
+
+                <label for="productoEditar">
+                    Seleccionar producto
+                </label>
+
+                <select id="productoEditar" required>
+                    <option value="">Selecciona un producto</option>
+                </select>
+
+                <label for="nombreEditar">
+                    Nombre del producto
+                </label>
+
+                <input type="text"
+                       id="nombreEditar"
+                       required>
+
+                <label for="categoriaEditar">
+                    Categoría
+                </label>
+
+                <input type="text"
+                       id="categoriaEditar"
+                       required>
+
+                <button type="submit" class="boton">
+                    Guardar cambios
+                </button>
+
+            </form>
+
+            <p id="mensajeEditarProducto" role="status"></p>
+
+        </section>
+
+
+
+
+        <!-- SECCIÓN DE DONANTES -->
+        <section class="panel" id="seccionDonantes"
+                 style="display: none;">
+
+            <h2>👥 Gestión de donantes</h2>
+
+            <p class="descripcion">
+                Registra a las personas y organizaciones
+                que colaboran con donaciones de alimentos.
+            </p>
+
+            <h3>Registrar nuevo donante</h3>
+
+            <form class="formulario" id="formularioDonante">
+
+                <label for="nombreDonante">
+                    Nombre del donante
+                </label>
+
+                <input type="text"
+                       id="nombreDonante"
+                       placeholder="Ejemplo: María López"
+                       maxlength="100"
+                       required>
+
+                <label for="telefonoDonante">
+                    Teléfono
+                </label>
+
+                <input type="text"
+                       id="telefonoDonante"
+                       placeholder="Ejemplo: 5555-1234"
+                       maxlength="20"
+                       required>
+
+                <label for="tipoDonante">
+                    Tipo de donante
+                </label>
+
+                <select id="tipoDonante" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="PERSONA">Persona</option>
+                    <option value="ORGANIZACION">Organización</option>
+                </select>
+
+                <label for="direccionDonante">
+                    Dirección
+                </label>
+
+                <input type="text"
+                       id="direccionDonante"
+                       placeholder="Ejemplo: Ciudad de Guatemala"
+                       maxlength="150"
+                       required>
+
+                <button type="submit" class="boton">
+                    Guardar donante
+                </button>
+
+            </form>
+
+            <p id="mensajeDonante" role="status"></p>
+
+            <h3>📋 Donantes registrados</h3>
+
+            <table class="tabla">
+                <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Teléfono</th>
+                    <th>Tipo</th>
+                    <th>Dirección</th>
+                </tr>
+                </thead>
+
+                <tbody id="tablaDonantes">
+                <tr>
+                    <td colspan="4">
+                        Aquí aparecerán los donantes.
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </section>
+
+
+
+        <!-- SECCIÓN DE DONACIONES -->
+        <section class="panel" id="seccionDonaciones"
+                 style="display: none;">
+
+            <h2>❤️ Gestión de donaciones</h2>
+
+            <p class="descripcion">
+                Registra las donaciones de alimentos
+                realizadas por personas y organizaciones.
+            </p>
+
+            <h3>Registrar nueva donación</h3>
+
+            <form class="formulario" id="formularioDonacion">
+
+                <label for="donanteDonacion">
+                    Seleccionar donante
+                </label>
+
+                <select id="donanteDonacion" required>
+                    <option value="">Selecciona un donante</option>
+                </select>
+
+                <label for="descripcionDonacion">
+                    Descripción del alimento
+                </label>
+
+                <input type="text"
+                       id="descripcionDonacion"
+                       placeholder="Ejemplo: Arroz blanco"
+                       maxlength="150"
+                       required>
+
+                <label for="cantidadDonacion">
+                    Cantidad donada
+                </label>
+
+                <input type="number"
+                       id="cantidadDonacion"
+                       min="0.01"
+                       step="any"
+                       placeholder="Ejemplo: 10"
+                       required>
+
+                <label for="unidadDonacion">
+                    Unidad de medida
+                </label>
+
+                <select id="unidadDonacion" required>
+                    <option value="">Selecciona una unidad</option>
+                    <option value="UNIDADES">Unidades</option>
+                    <option value="KILOGRAMOS">Kilogramos</option>
+                    <option value="LIBRAS">Libras</option>
+                    <option value="LITROS">Litros</option>
+                </select>
+
+                <label for="fechaDonacion">
+                    Fecha de donación
+                </label>
+
+                <input type="date"
+                       id="fechaDonacion"
+                       required>
+
+                <label for="fechaCaducidad">
+                    Fecha de caducidad
+                </label>
+
+                <input type="date"
+                       id="fechaCaducidad"
+                       required>
+
+                <label for="estadoDonacion">
+                    Estado de la donación
+                </label>
+
+                <select id="estadoDonacion" required>
+                    <option value="">Selecciona un estado</option>
+                    <option value="RECIBIDA">Recibida</option>
+                    <option value="PENDIENTE">Pendiente</option>
+                </select>
+
+                <button type="submit" class="boton">
+                    Guardar donación
+                </button>
+
+            </form>
+
+            <p id="mensajeDonacion" role="status"></p>
+
+            <h3>📋 Donaciones registradas</h3>
+
+            <div style="overflow-x: auto;">
+                <table class="tabla">
+                    <thead>
+                    <tr>
+                        <th>Donante</th>
+                        <th>Alimento</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Fecha</th>
+                        <th>Caducidad</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="tablaDonaciones">
+                    <tr>
+                        <td colspan="7">
+                            Aquí aparecerán las donaciones.
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
+
+
+
+
+
+
+
+
+        <!-- NUESTRO PROPÓSITO -->
+        <section class="panel">
+
+            <h2> Nuestro propósito</h2>
+
+            <p>
+                NUTRIVA es un sistema de gestión de
+                donaciones alimentarias diseñado para
+                facilitar el registro de productos,
+                controlar las existencias y organizar
+                la distribución de alimentos de manera
+                eficiente.
+            </p>
+
+        </section>
+
+        <!-- MENSAJE DE ERROR -->
+        <p id="mensajeError" style="color: #6D3C52;"></p>
+
+    </main>
+
+</div>
+
+<!-- CONEXIÓN CON JAVASCRIPT -->
+<script src="/script.js"></script>
+
+</body>
+</html>
